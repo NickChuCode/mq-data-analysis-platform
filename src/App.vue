@@ -1,8 +1,23 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+    <div class="nav-bar">
+      <el-menu
+        mode="horizontal"
+        background-color="#fff"
+        text-color="#606266"
+        active-text-color="#409eff"
+        :router="true"
+      >
+        <el-menu-item index="/">
+          <img src="./assets/logo.png" alt="" style="height: 45px;">
+        </el-menu-item>
+        <el-menu-item index="/dashboard">
+          仪表盘
+        </el-menu-item>
+        <el-menu-item index="/charts/create">
+          创建图表
+        </el-menu-item>
+      </el-menu>
     </div>
     <router-view/>
   </div>
@@ -13,17 +28,25 @@
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
 }
-#nav {
-  padding: 30px;
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+html {
+  box-sizing: border-box;
+}
+*, *:before, *:after{
+  box-sizing: inherit;
+}
+body,div,ul,li {
+  margin: 0;
+  padding: 0;
+}
+a,a:hover {
+  text-decoration: none;
+  color: inherit;
+}
+.nav-bar {
+  display: flex;
+  justify-content: space-between;
+  height: 61px;
+  border-bottom: 1px solid #EBEEF5;
 }
 </style>
