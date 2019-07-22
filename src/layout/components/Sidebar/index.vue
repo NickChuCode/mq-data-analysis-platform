@@ -3,6 +3,7 @@
     <el-scrollbar wrap-class="scrollbar-wrapper">
       <el-menu
         mode="vertical"
+        :collapse="isCollapse"
         :default-active="activeMenu"
         :background-color="variables.menuBg"
         :text-color="variables.menuText"
@@ -45,6 +46,9 @@ export default {
     },
     variables () {
       return variables
+    },
+    isCollapse () {
+      return !this.sidebar.opened
     }
   }
 }

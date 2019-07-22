@@ -42,7 +42,7 @@ export const constantRoutes = [
         path: 'index',
         component: () => import('@/views/Charts.vue'),
         name: 'ChartsCreate',
-        meta: { title: 'Charts', icon: 'dashboard', affix: true }
+        meta: { title: 'Charts', icon: 'dashboard', affix: false }
       }
     ]
   }
