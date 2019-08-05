@@ -15,6 +15,7 @@ export default {
       fetchList().then(res => {
         console.log(res)
       })
+      console.log(this.$root)
     }
   }
 }
