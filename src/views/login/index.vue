@@ -27,6 +27,43 @@
           autocomplete="on"
         ></el-input>
       </el-form-item>
+      <el-tooltip v-model="capsTooltip" content="Caps lock is On" placement="right" manual>
+        <el-form-item prop="password">
+          <span class="svg-container">
+            <svg-icon icon-class="password"></svg-icon>
+          </span>
+          <el-input
+            :key="passwordType"
+            ref="password"
+            v-model="loginForm.password"
+            :type="passwordType"
+            placeholder="Password"
+            name="password"
+            tabindex="2"
+            autocomplete="on"
+            @keyup.native="checkCapslock"
+            @blur="capsTooltip = false"
+            @keyup.enter.native="handleLogin"
+          >
+          </el-input>
+          <span class="show-pwd" @click="showPwd">
+            <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'"></svg-icon>
+          </span>
+        </el-form-item>
+      </el-tooltip>
+
+      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">登录</el-button>
+
+      <div style="position: relative">
+        <div class="tips">
+          <span>用户名：admin</span>
+          <span>密码： 任意</span>
+        </div>
+        <div class="tips">
+          <span style="margin-right:18px;">用户名 : editor</span>
+          <span>密码 : any</span>
+        </div>
+      </div>
     </el-form>
   </div>
 </template>
@@ -66,6 +103,38 @@ export default {
       showDialog: false,
       redirect: undefined,
       otherQuery: {}
+    }
+  },
+  methods: {
+    checkCapslock ({ shiftKey, key } = {}) {
+      if (key && key.length === 1) {
+        // eslint-disable-next-line
+        if (shiftKey && (key >= 'a' && key <= 'z') || !shiftKey && (key >= 'A' && key <= 'Z')) {
+          this.capsTooltip = true
+        } else {
+          this.capsTooltip = false
+        }
+      }
+      if (key === 'CapsLock' && this.capsTooltip === true) {
+        this.capsTooltip = false
+      }
+    },
+    showPwd () {
+      if (this.passwordType === 'password') {
+        this.passwordType = ''
+      } else {
+        this.passwordType = 'password'
+      }
+      this.$nextTick(() => {
+        this.$refs.password.focus()
+      })
+    },
+    handleLogin () {
+      this.$store.dispatch('user/login', this.loginForm).then(() => {
+        this.$router.push({ path: '/' }) // 登录成功之后重定向到首页
+      }).catch(err => {
+        this.$message.error(err) // 登录失败提示错误
+      })
     }
   }
 }
